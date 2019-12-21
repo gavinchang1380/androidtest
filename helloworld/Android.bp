@@ -1,0 +1,6 @@
+cc_binary {
+    name: "helloworld",
+    srcs: ["helloworld.cpp"],
+    shared_libs: [],
+    cflags: ["-Werror"],
+}
