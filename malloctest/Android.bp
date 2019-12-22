@@ -1,0 +1,6 @@
+cc_binary {
+    name: "malloctest",
+    srcs: ["malloctest.cpp"],
+    shared_libs: [],
+    cflags: [],
+}

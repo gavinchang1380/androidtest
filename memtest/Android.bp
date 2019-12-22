@@ -1,0 +1,7 @@
+cc_binary {
+    name: "memtest",
+    srcs: ["memtest.cpp"],
+    shared_libs: [],
+    cflags: [],
+    sanitize: { address: true }
+}
