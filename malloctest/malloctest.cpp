@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dlfcn.h>
 
 #define ENUM(x) (sizeof(x) / (sizeof(x[0])))
 #define CMD_LINE_SIZE 128
@@ -60,6 +61,39 @@ static void func_user_after_free(void)
     }
 }
 
+static void func_leak_on_dlopen(void)
+{
+    void *handle;
+    handle = dlopen("libmalloctest1.so", RTLD_LAZY);
+    if (!handle) {
+        printf("dlopen failed\n");
+        return;
+    }
+}
+
+static void func_leak_on_dlopen_sym(void)
+{
+    void *handle;
+    handle = dlopen("libmalloctest2.so", RTLD_LAZY);
+    if (!handle) {
+        printf("dlopen failed\n");
+    }
+
+    void (*sym)(void) = (void (*)())dlsym(handle, "do_something");
+    if (!sym) {
+        printf("dlsym failed\n");
+    }
+
+    sym();
+}
+
+extern "C" void do_something(void);
+static void func_leak_on_so_sym(void)
+{
+    do_something();
+}
+
+
 static void func_exit(void)
 {
     exit(0);
@@ -75,6 +109,9 @@ const struct {
     {"malloc", func_malloc},
     {"free", func_free},
     {"user_after_free", func_user_after_free},
+    {"leak_on_dlopen", func_leak_on_dlopen},
+    {"leak_on_dlopen_sym", func_leak_on_dlopen_sym},
+    {"leak_on_so_sym", func_leak_on_so_sym},
     {"exit", func_exit},
 };
 
