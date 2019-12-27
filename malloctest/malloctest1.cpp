@@ -11,7 +11,7 @@ class GlobalVar
 public:
     GlobalVar() {
         volatile char *p = (char *)malloc(MALLOC_SIZE);
-        printf("malloctest1: malloc address: 0x%p ~ 0x%p\n", &p[0], &p[MALLOC_SIZE - 1]);
+        printf("malloctest1: malloc address: %p ~ %p\n", &p[0], &p[MALLOC_SIZE - 1]);
     }
 };
 

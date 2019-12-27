@@ -12,7 +12,7 @@
 static void func_overflow(void)
 {
     volatile char *p = (char *)malloc(MALLOC_SIZE);
-    printf("malloc address: 0x%p ~ 0x%p\n", &p[0], &p[MALLOC_SIZE - 1]);
+    printf("malloc address: %p ~ %p\n", &p[0], &p[MALLOC_SIZE - 1]);
     for (int i = 0; i < 100; ++i) {
         p[MALLOC_SIZE + i] = 0xA5;
     }
@@ -23,7 +23,7 @@ static void func_overflow(void)
 static void func_underflow(void)
 {
     volatile char *p = (char *)malloc(MALLOC_SIZE);
-    printf("malloc address: 0x%p ~ 0x%p\n", &p[0], &p[MALLOC_SIZE - 1]);
+    printf("malloc address: %p ~ %p\n", &p[0], &p[MALLOC_SIZE - 1]);
     for (int i = 0; i < 100; ++i) {
         p[-1 - i] = 0xA5;
     }
@@ -34,26 +34,26 @@ static void func_underflow(void)
 static void func_leak(void)
 {
     char *p = (char *)malloc(MALLOC_SIZE);
-    printf("malloc address: 0x%p ~ 0x%p\n", &p[0], &p[MALLOC_SIZE - 1]);
+    printf("malloc address: %p ~ %p\n", &p[0], &p[MALLOC_SIZE - 1]);
 }
 
 static char *ptr;
 static void func_malloc(void)
 {
     ptr = (char *)malloc(MALLOC_SIZE);
-    printf("malloc address: 0x%p ~ 0x%p\n", &ptr[0], &ptr[MALLOC_SIZE - 1]);
+    printf("malloc address: %p ~ %p\n", &ptr[0], &ptr[MALLOC_SIZE - 1]);
 }
 
 static void func_free(void)
 {
     free(ptr);
-    printf("free address: 0x%p\n", ptr);
+    printf("free address: %p\n", ptr);
 }
 
 static void func_user_after_free(void)
 {
     volatile char *p = (char *)malloc(MALLOC_SIZE);
-    printf("malloc address: 0x%p ~ 0x%p\n", &p[0], &p[MALLOC_SIZE - 1]);
+    printf("malloc address: %p ~ %p\n", &p[0], &p[MALLOC_SIZE - 1]);
     free((void *)p);
 
     for (int i = 0; i < 100; ++i) {
@@ -64,7 +64,7 @@ static void func_user_after_free(void)
 static void func_leak_on_dlopen(void)
 {
     void *handle;
-    handle = dlopen("libmalloctest1.so", RTLD_LAZY);
+    handle = dlopen("libmalloctest1.so", RTLD_NOW);
     if (!handle) {
         printf("dlopen failed\n");
         return;
@@ -74,7 +74,7 @@ static void func_leak_on_dlopen(void)
 static void func_leak_on_dlopen_sym(void)
 {
     void *handle;
-    handle = dlopen("libmalloctest2.so", RTLD_LAZY);
+    handle = dlopen("libmalloctest2.so", RTLD_NOW);
     if (!handle) {
         printf("dlopen failed\n");
     }
