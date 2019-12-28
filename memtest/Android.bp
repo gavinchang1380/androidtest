@@ -1,7 +1,27 @@
 cc_binary {
     name: "memtest",
     srcs: ["memtest.cpp"],
+    shared_libs: ["libmemtest3"],
+    cflags: ["-Wno-array-bounds", "-Wno-return-stack-address"],
+}
+
+cc_library_shared {
+    name: "libmemtest1",
+    srcs: ["memtest1.cpp"],
     shared_libs: [],
     cflags: [],
-    sanitize: { address: true }
+}
+
+cc_library_shared {
+    name: "libmemtest2",
+    srcs: ["memtest2.cpp"],
+    shared_libs: [],
+    cflags: [],
+}
+
+cc_library_shared {
+    name: "libmemtest3",
+    srcs: ["memtest2.cpp"],
+    shared_libs: [],
+    cflags: [],
 }
