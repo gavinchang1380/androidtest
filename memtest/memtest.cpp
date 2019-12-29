@@ -44,6 +44,9 @@ static void func_heap_malloc(const char *param)
     size_t size = param ? atoi(param) : MEMORY_SIZE;
     ptr = (char *)malloc(size);
     printf("heap size: %zu, address: %p ~ %p\n", size, &ptr[0], &ptr[size - 1]);
+    for (size_t i = 0; i < size; ++i) {
+        ptr[i] = 0x5A;
+    }
 }
 
 static void func_heap_free(const char *param)
@@ -112,6 +115,26 @@ static void func_heap_leak_on_so_sym(const char *param)
     do_something();
 }
 
+static void func_heap_get_info(const char *param)
+{
+    (void)param;
+    struct mallinfo info = mallinfo();
+
+    printf("info: arena = %zu, ordblks = %zu, smblks = %zu, hblks = %zu, hblkhd = %zu, ",
+            info.arena,
+            info.ordblks,
+            info.smblks,
+            info.hblkhd,
+            info.usmblks);
+    printf("usmblks = %zu, fsmblks = %zu, uordblks = %zu, fordblks = %zu, keepcost = %zu\n",
+           info.usmblks,
+           info.fsmblks,
+           info.uordblks,
+           info.fordblks,
+           info.keepcost);
+
+    malloc_info(0, stdout);
+}
 
 static void func_exit(const char *param)
 {
@@ -217,6 +240,8 @@ const struct {
     {"heap_leak_on_dlopen", func_heap_leak_on_dlopen},
     {"heap_leak_on_dlopen_sym", func_heap_leak_on_dlopen_sym},
     {"heap_leak_on_so_sym", func_heap_leak_on_so_sym},
+    {"heap_get_info", func_heap_get_info},
+
 
     {"stack_overflow", func_stack_overflow},
     {"stack_underflow", func_stack_underflow},
