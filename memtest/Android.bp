@@ -3,6 +3,7 @@ cc_binary {
     srcs: ["memtest.cpp"],
     shared_libs: ["libmemtest3"],
     cflags: ["-Wno-array-bounds", "-Wno-return-stack-address"],
+    //sanitize: { address: true }
 }
 
 cc_library_shared {
@@ -10,6 +11,7 @@ cc_library_shared {
     srcs: ["memtest1.cpp"],
     shared_libs: [],
     cflags: [],
+    //sanitize: { address: true }
 }
 
 cc_library_shared {
@@ -17,11 +19,13 @@ cc_library_shared {
     srcs: ["memtest2.cpp"],
     shared_libs: [],
     cflags: [],
+    //sanitize: { address: true }
 }
 
 cc_library_shared {
     name: "libmemtest3",
-    srcs: ["memtest2.cpp"],
+    srcs: ["memtest3.cpp"],
     shared_libs: [],
     cflags: [],
+    //sanitize: { address: true }
 }
