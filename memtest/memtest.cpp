@@ -78,7 +78,7 @@ static void func_heap_leak_on_dlopen(const char *param)
     (void)param;
 
     void *handle;
-    handle = dlopen("libmalloctest1.so", RTLD_NOW);
+    handle = dlopen("libmemtest1.so", RTLD_NOW);
     if (!handle) {
         printf("dlopen failed: %s\n", dlerror());
         return;
@@ -90,7 +90,7 @@ static void func_heap_leak_on_dlopen_sym(const char *param)
     (void)param;
 
     void *handle;
-    handle = dlopen("libmalloctest2.so", RTLD_NOW);
+    handle = dlopen("libmemtest2.so", RTLD_NOW);
     if (!handle) {
         printf("dlopen failed: %s\n", dlerror());
         return;
@@ -155,20 +155,23 @@ static void func_stack_static_underflow(const char *param)
     p[-1] = 0xA5;
 }
 
-static volatile char *__func_stack_use_after_return__(const char *param)
+static volatile char *__func_stack_use_after_return__(void)
 {
-    size_t size = param ? atoi(param) : MEMORY_SIZE;
-    volatile char p[size];
-    printf("stack size: %zu, address: %p ~ %p\n", size, &p[0], &p[size - 1]);
+    volatile char p[MEMORY_SIZE];
+    printf("stack size: %zu, address: %p ~ %p\n", (size_t)MEMORY_SIZE, &p[0], &p[MEMORY_SIZE - 1]);
 
     return &p[0];
 }
 
 static void func_stack_use_after_return(const char *param)
 {
-    volatile char *p = __func_stack_use_after_return__(param);
+    (void)param;
+
+    volatile char *p = __func_stack_use_after_return__();
+    printf("address: %p\n", p);
 
     *p = 0xA5;
+    printf("p = 0x%x\n", *p);
 }
 
 static void func_stack_use_after_scope(const char *param)
