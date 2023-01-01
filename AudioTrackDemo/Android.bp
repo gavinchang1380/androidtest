@@ -1,0 +1,15 @@
+cc_binary {
+    name: "AudioTrackDemo",
+    srcs: ["AudioTrackDemo.cpp"],
+    shared_libs: [
+        "libaudioclient",
+        "libcutils",
+        "libutils",
+        "framework-permission-aidl-cpp"
+    ],
+    header_libs: [
+        "libaudioclient_headers",
+        "libmedia_headers"
+    ],
+    cflags: [],
+}
