@@ -1,0 +1,6 @@
+cc_binary {
+    name: "algo_simulator",
+    srcs: ["algo_simulator.c"],
+    shared_libs: [],
+    cflags: [],
+}
