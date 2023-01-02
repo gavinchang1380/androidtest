@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
     }
 
     if (argc >= 2) {
-        freq = atoi(argv[1]);
+        freq = (int)strtol(argv[1], NULL, 0);
     }
 
     if (argc >= 3) {
-        stream_type = (audio_stream_type_t)atoi(argv[2]);
+        stream_type = (audio_stream_type_t)strtol(argv[2], NULL, 0);
     }
 
     if (argc >= 4) {
-        flag = (audio_output_flags_t)atoi(argv[3]);
+        flag = (audio_output_flags_t)strtol(argv[3], NULL, 0);
     }
 
     int16_t buffer[960 * 2];
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
                                        nullptr,
                                        0,
                                        0,
-                                       false,
+                                       true,
                                        AUDIO_SESSION_ALLOCATE,
                                        android::AudioTrack::TRANSFER_SYNC,
                                        nullptr,
